@@ -9,7 +9,10 @@ from keepalive import keepalive
 
 client= discord.Client()
 
-positive_word=["happy","nice","sweet","good"]
+
+positive_word=["happy","Happy","nice","Nice","sweet","Sweet","good","Good","Better","better"]
+
+
 
 pissing_message=[
   "Fuck Off!",
@@ -18,6 +21,8 @@ pissing_message=[
   "Son of a bitch.",
   "Jerk Off!"
 ]
+
+
 
 greetings=[
   "Hey there punk!",
@@ -28,10 +33,11 @@ greetings=[
   "What the fuck you want?"
 ]
 
-if "Responding" in db.keys():
-  db["Responding"] = True
+
 
 helplist="Press >hello to get a greet.\nPress >insult to get a insult.\nPress >cnjoke to get a Chuck Norris Joke.\nPress >new to add a new User Piss Txt.\nPress >del to delete a User Piss Txt"
+
+
 
 #function to get a quote
 def get_quote():
@@ -40,11 +46,15 @@ def get_quote():
   insult=json_data["insult"]
   return(insult)
 
+
+
 #function to get a chucknorris joke
 def get_jokes():
   result=requests.get('http://api.icndb.com/jokes/random')
   data = json.loads(result.text)
   return(data["value"]["joke"])
+
+
 
 def update_pisslist(vulg_txt):
   if "pissing" in db.keys():
@@ -61,10 +71,14 @@ def delete_pisslist(index):
     del pissing[index]
     db["pissing"]=pissing
 
+
+
 #default on ready message
 @client.event
 async def on_ready():
   print('Currently logged in as {0.user}'.format(client))
+
+
 
 
 @client.event
@@ -93,7 +107,6 @@ async def on_message(message):
     reply= get_jokes()
     await message.channel.send(reply)
 
-  # if db["Responding"]:
   choices = pissing_message
   if "pissing" in db.keys():
     choices.extend(db["pissing"])
@@ -119,17 +132,10 @@ async def on_message(message):
     await message.channel.send(pissing)
 
 
-  # if message.content.startswith(">Switch"):
-  #   value= message.content.split(">Switch ",1)[1]
 
-  #   if value.lower()== "true":
-  #     db["Responding"]= True
-  #     await message.channel.send("Responding Is On!!")
-
-  #   else:
-  #     db["Responding"]= False
-  #     await message.channel.send("Responding Is Off!!")
 
 keepalive()
+
+
 
 client.run(os.getenv('rc1token'))
